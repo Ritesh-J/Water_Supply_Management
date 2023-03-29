@@ -1,18 +1,20 @@
 package com.demo.waterSupply.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 public class UserModel {
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int userId;
     @Column(name = "user_name")

@@ -33,8 +33,8 @@ public class PermissionModel {
     @Column(name="view_reading")
     private boolean viewReading;
 
-    @OneToOne(mappedBy = "permissionModel", cascade = CascadeType.ALL)
-    private RoleModel roleModel;
+//    @OneToOne(mappedBy = "permissionModel")
+//    private RoleModel roleModel;
 
 
 }
