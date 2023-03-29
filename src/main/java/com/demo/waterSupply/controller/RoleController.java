@@ -3,10 +3,9 @@ package com.demo.waterSupply.controller;
 import com.demo.waterSupply.model.RoleModel;
 import com.demo.waterSupply.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/role")
@@ -16,6 +15,19 @@ public class RoleController {
     @PostMapping
     public RoleModel addRole(@RequestBody RoleModel roleModel) {
         return roleService.addRole(roleModel);
+    }
+    @GetMapping("/{id}")
+    public Optional<RoleModel> getRoleById(@PathVariable("id") int id){
+        return roleService.getRoleById(id);
+    }
+    @PutMapping
+    public RoleModel updateRole(@RequestBody RoleModel roleModel) {
+        return roleService.updateRole(roleModel);
+    }
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable("id") int id){
+         roleService.deleteRoleById(id);
+        return "Role Deleted";
     }
 
 }

@@ -1,9 +1,6 @@
 package com.demo.waterSupply.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +16,11 @@ public class CityModel {
     private int cityId;
     @Column(name = "city_name")
     private String  cityName;
-    @Column(name = "utility_id")
-    private int utilityId;
+//    @Column(name = "utility_id")
+//    private int utilityId;
+    @ManyToOne
+    @JoinColumn(name = "utility_id", referencedColumnName = "utility_id")
+    private UtilityModel utilityModel;
+
 
 }

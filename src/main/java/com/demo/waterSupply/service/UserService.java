@@ -1,5 +1,7 @@
 package com.demo.waterSupply.service;
 
+import com.demo.waterSupply.model.CityModel;
+import com.demo.waterSupply.model.MeterModel;
 import com.demo.waterSupply.model.RoleModel;
 import com.demo.waterSupply.model.UserModel;
 import com.demo.waterSupply.repository.RoleRepository;
@@ -15,12 +17,26 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private CityService cityService;
+    @Autowired
+    private MeterService meterService;
     public UserModel addUser(UserModel userModel) {
         RoleModel roleModel = roleService.getRoleById(userModel.getRoleModel().getRoleId()).get();
         userModel.setRoleModel(roleModel);
+        CityModel cityModel=cityService.getCityById(userModel.getCityModel().getCityId()).get();
+        userModel.setCityModel(cityModel);
+        MeterModel meterModel=meterService.getMeterById(userModel.getMeterModel().getMeterId()).get();
+        userModel.setMeterModel(meterModel);
         return userRepository.save(userModel);
     }
     public UserModel updateUser(UserModel userModel) {
+        RoleModel roleModel = roleService.getRoleById(userModel.getRoleModel().getRoleId()).get();
+        userModel.setRoleModel(roleModel);
+        CityModel cityModel=cityService.getCityById(userModel.getCityModel().getCityId()).get();
+        userModel.setCityModel(cityModel);
+        MeterModel meterModel=meterService.getMeterById(userModel.getMeterModel().getMeterId()).get();
+        userModel.setMeterModel(meterModel);
         return userRepository.save(userModel);
     }
 

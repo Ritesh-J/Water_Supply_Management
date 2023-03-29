@@ -23,13 +23,19 @@ public class UserModel {
     private String userEmail;
     @Column(name = "user_address")
     private String userAddress;
-    @Column(name = "city_id")
-    private int cityId;
+//    @Column(name = "city_id")
+//    private int cityId;
 //    @Column(name = "role_id")
 //    private int roleId;
-    @Column(name = "meter_id")
-    private int meterId;
-    @OneToOne(cascade = CascadeType.ALL)
+//    @Column(name = "meter_id")
+//    private int meterId;
+    @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private RoleModel roleModel;
+    @ManyToOne
+    @JoinColumn(name = "city_id", referencedColumnName = "city_id")
+    private CityModel cityModel;
+    @OneToOne
+    @JoinColumn(name = "meter_id", referencedColumnName = "meter_id")
+    private MeterModel meterModel;
 }
