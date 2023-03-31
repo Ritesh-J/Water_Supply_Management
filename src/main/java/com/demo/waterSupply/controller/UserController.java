@@ -16,8 +16,13 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping
-    public UserModel addUser(@RequestBody UserModel userModel) {
-        return userService.addUser(userModel);
+    public String addUser(@RequestBody UserModel userModel) {
+        if(userService.existsUserEmail(userModel))
+            return "User already Exists";
+        userService.addUser(userModel);
+        return "User registered";
+
+
 
     }
 //    @GetMapping

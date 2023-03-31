@@ -9,6 +9,7 @@ import com.demo.waterSupply.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,5 +56,11 @@ public class UserService {
     public void deleteUserById(int userId) {
         userRepository.deleteById(userId);
     }
+    public boolean existsUserEmail(UserModel userModel) {
+        if(userRepository.existsByUserEmail(userModel.getUserEmail()))
+            return true;
+        return false;
+    }
+
 
 }

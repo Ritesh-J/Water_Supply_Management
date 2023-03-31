@@ -23,6 +23,8 @@ public class UserModel {
     private String userEmail;
     @Column(name = "user_address")
     private String userAddress;
+    @Column(name = "password")
+    private String password;
 //    @Column(name = "city_id")
 //    private int cityId;
 //    @Column(name = "role_id")
