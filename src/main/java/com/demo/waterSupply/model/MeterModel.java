@@ -1,12 +1,11 @@
 package com.demo.waterSupply.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -25,6 +24,11 @@ public class MeterModel {
     private int crossSecArea;
     @Column(name = "location_pin")
     private int locationPin;
+//    @OneToMany(mappedBy = "source")
+//    private List<WaterMeterMapping> mappings1;
+//    @OneToMany(mappedBy = "target")
+//    private List<WaterMeterMapping> mappings2;
+
 
 
 }

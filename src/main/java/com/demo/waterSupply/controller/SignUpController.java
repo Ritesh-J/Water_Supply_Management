@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/signup")
-public class SignUpController {
-    @Autowired
-    private UserService userService;
-    @PostMapping
-    public String userSignUp(@RequestBody UserModel userModel) {
-        if (userService.existsUserEmail(userModel))
-            return "User already Exists";
-        userService.addUser(userModel);
-        return "User registered";
-    }
-
-}
+//@RestController
+//@RequestMapping("/signup")
+//public class SignUpController {
+//    @Autowired
+//    private UserService userService;
+//    @PostMapping
+//    public String userSignUp(@RequestBody UserModel userModel) {
+//        if (userService.existsUserEmail(userModel))
+//            return "User already Exists";
+//        userService.addUser(userModel);
+//        return "User registered";
+//    }
+//
+//}

@@ -14,7 +14,7 @@ import org.hibernate.annotations.Cascade;
 @Setter
 public class UserModel {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private int userId;
     @Column(name = "user_name")
@@ -23,8 +23,8 @@ public class UserModel {
     private String userEmail;
     @Column(name = "user_address")
     private String userAddress;
-    @Column(name = "password")
-    private String password;
+//    @Column(name = "password")
+//    private String password;
 //    @Column(name = "city_id")
 //    private int cityId;
 //    @Column(name = "role_id")
