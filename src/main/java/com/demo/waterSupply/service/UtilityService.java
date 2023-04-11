@@ -5,6 +5,7 @@ import com.demo.waterSupply.repository.UtilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,8 @@ public class UtilityService {
     }
     public void deleteUtilityById(int id) {
         utilityRepository.deleteById(id);
+    }
+    public List<UtilityModel> addAllUtility(List<UtilityModel> utilityModels){
+        return utilityRepository.saveAll(utilityModels);
     }
 }

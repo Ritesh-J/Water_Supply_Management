@@ -20,6 +20,10 @@ public class MeterReading {
 //    private int meterId;
     @Column(name = "meter_reading")
     private int meterReading;
+    @Column(name = "expected_volume")
+    private Integer expectedVolume=0;
+    @Column(name = "percentage_loss")
+    private Integer percentageLossOfWater=0;
     @Column(name = "time_stamp")
     private LocalDateTime localDateTime;
     @OneToOne

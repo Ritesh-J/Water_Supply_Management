@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,6 +17,10 @@ public class UtilityController {
     @PostMapping
     public UtilityModel addUtility(@RequestBody UtilityModel utilityModel) {
         return utilityService.addUtility(utilityModel);
+    }
+    @PostMapping("/all-utility")
+    public List<UtilityModel> addAllUtility(@RequestBody List<UtilityModel> utilityModels){
+        return utilityService.addAllUtility(utilityModels);
     }
     @GetMapping("/{id}")
     public Optional<UtilityModel> getUtilityById(@PathVariable("id") int id ) {
