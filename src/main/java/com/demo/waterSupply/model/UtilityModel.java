@@ -1,11 +1,9 @@
 package com.demo.waterSupply.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -15,8 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class UtilityModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "utility_id")
-    private int utilityId;
+    private Long utilityId;
     @Column(name = "utility_name")
     private String  utilityName;
 }

@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class PermissionModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "permission_id")
-    private int permissionId;
+    private Long permissionId;
     @Column(name = "role_id")
     private int roleId;
     @Column(name = "city_id")

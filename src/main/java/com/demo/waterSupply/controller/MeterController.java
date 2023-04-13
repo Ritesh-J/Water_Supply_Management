@@ -17,7 +17,7 @@ public class MeterController {
         return meterService.addMeter(meterModel);
     }
     @GetMapping("/{id}")
-    public Optional<MeterModel> getMeterById(@PathVariable("id") int id) {
+    public Optional<MeterModel> getMeterById(@PathVariable("id") Long id) {
         return meterService.getMeterById(id);
     }
     @PutMapping
@@ -25,7 +25,7 @@ public class MeterController {
         return meterService.updateMeter(meterModel);
     }
     @DeleteMapping("/{id}")
-    public String deleteMeterById(@PathVariable("id") int id) {
+    public String deleteMeterById(@PathVariable("id") Long id) {
          meterService.deleteById(id);
         return "Meter Deleted";
     }

@@ -14,8 +14,9 @@ import java.util.List;
 @Data
 public class MeterModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meter_id")
-    private int meterId;
+    private Long meterId;
     @Column(name = "meter_name")
     private String meterName;
     @Column(name = "critical_volume")

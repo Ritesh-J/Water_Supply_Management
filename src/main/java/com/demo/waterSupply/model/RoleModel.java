@@ -14,9 +14,9 @@ import org.hibernate.annotations.Fetch;
 @Data
 public class RoleModel {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    private int roleId;
+    private Long roleId;
     @Column(name = "role_name")
     private String roleName;
 

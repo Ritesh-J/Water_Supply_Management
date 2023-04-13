@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MeterRepository extends JpaRepository<MeterModel, Integer> {
+public interface MeterRepository extends JpaRepository<MeterModel, Long> {
     MeterModel findByMeterName(String meterName);
 }

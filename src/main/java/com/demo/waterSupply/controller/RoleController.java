@@ -17,7 +17,7 @@ public class RoleController {
         return roleService.addRole(roleModel);
     }
     @GetMapping("/{id}")
-    public Optional<RoleModel> getRoleById(@PathVariable("id") int id){
+    public Optional<RoleModel> getRoleById(@PathVariable("id") Long id){
         return roleService.getRoleById(id);
     }
     @PutMapping
@@ -25,7 +25,7 @@ public class RoleController {
         return roleService.updateRole(roleModel);
     }
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable("id") int id){
+    public String deleteById(@PathVariable("id") Long id){
          roleService.deleteRoleById(id);
         return "Role Deleted";
     }

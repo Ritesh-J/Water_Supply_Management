@@ -41,11 +41,11 @@ public class MeterReadingService {
         meterReading.setLocalDateTime(now);
         return meterReadingRepository.save(meterReading);
     }
-    public Optional<MeterReading> getMeterById(int id){
+    public Optional<MeterReading> getMeterById(Long id){
         return meterReadingRepository.findById(id);
     }
 
-    public void deleteMeterById(int id){
+    public void deleteMeterById(Long id){
         meterReadingRepository.deleteById(id);
     }
     public int calculateExpectedVolume(MeterReading meterReading) {

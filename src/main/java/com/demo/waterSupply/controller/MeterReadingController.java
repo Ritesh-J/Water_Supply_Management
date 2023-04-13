@@ -26,7 +26,7 @@ public class MeterReadingController {
         return meterReadingService.updateMeter(meterReading);
     }
     @GetMapping("/{id}")
-    public Optional<MeterReading> getMeterReadingById(@PathVariable("id") int id){
+    public Optional<MeterReading> getMeterReadingById(@PathVariable("id") Long id){
         return meterReadingService.getMeterById(id);
     }
     @GetMapping("/all-reading")
@@ -34,7 +34,7 @@ public class MeterReadingController {
         return meterReadingService.getAllReading();
     }
     @DeleteMapping("/{id}")
-    public String deleteMeterById(@PathVariable("id") int id){
+    public String deleteMeterById(@PathVariable("id") Long id){
          meterReadingService.deleteMeterById(id);
         return "Meter Reading deleted";
     }

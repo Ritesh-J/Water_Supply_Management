@@ -1,7 +1,8 @@
 package com.demo.waterSupply.service;
 
-import com.demo.waterSupply.dto.request.UserDTO;
-import com.demo.waterSupply.dto.respond.UserProfileDTO;
+import com.demo.waterSupply.dto.request.UserRequestDTO;
+import com.demo.waterSupply.dto.respond.UserRespondDTO;
+import com.demo.waterSupply.exception.UserNotFoundException;
 import com.demo.waterSupply.model.CityModel;
 import com.demo.waterSupply.model.MeterModel;
 import com.demo.waterSupply.model.RoleModel;
@@ -13,7 +14,6 @@ import com.demo.waterSupply.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,7 +32,7 @@ public class UserService {
     private CityService cityService;
     @Autowired
     private MeterService meterService;
-    public UserModel addUser(UserDTO userDTO) {
+    public UserModel addUser(UserRequestDTO userDTO) {
 //        RoleModel roleModel = roleService.getRoleById(userModel.getRoleModel().getRoleId()).get();
 //        userModel.setRoleModel(roleModel);
 //        CityModel cityModel=cityService.getCityById(userModel.getCityModel().getCityId()).get();
@@ -40,6 +40,7 @@ public class UserService {
 //        MeterModel meterModel=meterService.getMeterById(userModel.getMeterModel().getMeterId()).get();
 //        userModel.setMeterModel(meterModel);
 //        return userRepository.save(userModel);
+        System.out.println("hii");
         UserModel userModel= new UserModel();
         userModel.setUserId(userDTO.getUserId());
         userModel.setUserName(userDTO.getUserName());
@@ -65,8 +66,10 @@ public class UserService {
         return userRepository.save(userModel);
     }
 
-    public UserProfileDTO getUserById(int userId) {
+    public UserRespondDTO getUserById(Long userId) {
         Optional<UserModel> userModel=userRepository.findById(userId);
+        if(userModel.isEmpty())
+            throw  new UserNotFoundException("Requested User Doesn't Exist");
 //        if(userModel.isPresent()){
 //            System.out.println(userModel.get().getRoleModel().toString());
 //         RoleModel roleModel=   userModel.get().getRoleModel();
@@ -76,17 +79,17 @@ public class UserService {
 //            return userModel1;}
 //        return null;
         UserModel userModel1=userModel.get();
-        UserProfileDTO userProfileDTO=new UserProfileDTO();
+        UserRespondDTO userProfileDTO=new UserRespondDTO();
         userProfileDTO.setUserName(userModel1.getUserName());
         userProfileDTO.setCityName(userModel1.getCityModel().getCityName());
         userProfileDTO.setMeterName(userModel1.getMeterModel().getMeterName());
         userProfileDTO.setRoleName(userModel1.getRoleModel().getRoleName());
         return userProfileDTO;
     }
-    public void deleteUserById(int userId) {
+    public void deleteUserById(Long userId) {
         userRepository.deleteById(userId);
     }
-    public boolean existsUserEmail(UserDTO userDTO) {
+    public boolean existsUserEmail(UserRequestDTO userDTO) {
         if(userRepository.existsByUserEmail(userDTO.getUserEmail()))
             return true;
         return false;

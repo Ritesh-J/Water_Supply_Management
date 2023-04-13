@@ -1,18 +1,16 @@
-package com.demo.waterSupply.dto.request;
+package com.demo.waterSupply.dto.respond;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class UserDTO {
-    private int userId;
+public class UserRespondDTO {
     private String userName;
-    private String userEmail;
-    private String userAddress;
+    private String roleName;
     private String cityName;
     private String meterName;
-    private String roleName;
+
 }

@@ -16,10 +16,10 @@ public class RoleService {
     public RoleModel addRole(RoleModel roleModel) {
         return roleRepository.save(roleModel);
     }
-    public Optional<RoleModel> getRoleById(int id) {
+    public Optional<RoleModel> getRoleById(Long id) {
         return roleRepository.findById(id);
     }
-    public void deleteRoleById(int id){
+    public void deleteRoleById(Long id){
         roleRepository.deleteById(id);
     }
     public RoleModel updateRole(RoleModel roleModel){

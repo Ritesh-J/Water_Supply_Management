@@ -1,11 +1,16 @@
 package com.demo.waterSupply.controller;
 
+import com.demo.waterSupply.dto.request.UtilityRequestDTO;
 import com.demo.waterSupply.model.UtilityModel;
 import com.demo.waterSupply.service.UtilityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,24 +20,28 @@ public class UtilityController {
     @Autowired
     private UtilityService utilityService;
     @PostMapping
-    public UtilityModel addUtility(@RequestBody UtilityModel utilityModel) {
-        return utilityService.addUtility(utilityModel);
+    public ResponseEntity<Object> addUtility(@RequestBody @NotBlank UtilityRequestDTO utilityRequestDTO) {
+        return new ResponseEntity<>(utilityService.addUtility(utilityRequestDTO), HttpStatus.CREATED);
     }
     @PostMapping("/all-utility")
-    public List<UtilityModel> addAllUtility(@RequestBody List<UtilityModel> utilityModels){
-        return utilityService.addAllUtility(utilityModels);
+    public ResponseEntity<Object> addAllUtility(@RequestBody List<UtilityRequestDTO> utilityRequestDTOS){
+        return new ResponseEntity<>(utilityService.addAllUtility(utilityRequestDTOS), HttpStatus.CREATED);
+    }
+    @GetMapping("/all-utility")
+    public ResponseEntity<Object> getAllUtility(){
+        return new ResponseEntity<>(utilityService.getAllUtility(),HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public Optional<UtilityModel> getUtilityById(@PathVariable("id") int id ) {
-        return utilityService.getUtilityById(id);
+    public ResponseEntity<Object> getUtilityById(@PathVariable("id") Long id ) {
+        return new ResponseEntity<>(utilityService.getUtilityById(id), HttpStatus.FOUND);
     }
     @PutMapping
-    public UtilityModel updateUtility(@RequestBody UtilityModel utilityModel){
-        return utilityService.updateUtility(utilityModel);
+    public ResponseEntity<Object> updateUtility(@RequestBody UtilityRequestDTO utilityRequestDTO){
+        return new ResponseEntity<>(utilityService.updateUtility(utilityRequestDTO), HttpStatus.ACCEPTED);
     }
     @DeleteMapping("/{id}")
-    public String deleteUtilityById(@PathVariable("id") int id) {
+    public ResponseEntity<Object> deleteUtilityById(@PathVariable("id") Long id) {
         utilityService.deleteUtilityById(id);
-        return "Utility got Deleted";
+        return new ResponseEntity<>("Utility Got Deleted", HttpStatus.OK);
     }
 }

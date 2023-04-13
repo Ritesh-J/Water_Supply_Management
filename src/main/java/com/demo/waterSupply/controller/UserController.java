@@ -1,28 +1,28 @@
 package com.demo.waterSupply.controller;
 
-import com.demo.waterSupply.dto.request.UserDTO;
+import com.demo.waterSupply.dto.request.UserRequestDTO;
 import com.demo.waterSupply.model.UserModel;
 import com.demo.waterSupply.service.UserService;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
     @PostMapping
-    public ResponseEntity<?> addUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> addUser(@RequestBody @Valid UserRequestDTO userDTO) {
 //        if(userService.existsUserEmail(userDTO))
 //        return new ResponseEntity<>(userService.addUser(userDTO), HttpStatus.CREATED);
 //        else
+        System.out.println("hii");
             userService.addUser(userDTO);
             return new ResponseEntity<>("user Exist", HttpStatus.CREATED);
 //        if(userService.existsUserEmail(userModel))
@@ -36,7 +36,7 @@ public class UserController {
 //         userService.getUserById(userId);
 //    }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") int id) {
+    public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
 
           return ResponseEntity.ok(userService.getUserById(id));
     }
@@ -45,7 +45,7 @@ public class UserController {
         return new ResponseEntity<>(userService.updateUser(userModel), HttpStatus.ACCEPTED);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable("id") int userId) {
+    public ResponseEntity<?> deleteUserById(@PathVariable("id") Long userId) {
          userService.deleteUserById(userId);
          return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

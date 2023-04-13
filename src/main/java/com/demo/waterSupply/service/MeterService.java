@@ -14,13 +14,13 @@ public class MeterService {
     public MeterModel addMeter(MeterModel meterModel) {
         return meterRepository.save(meterModel);
     }
-    public Optional<MeterModel> getMeterById(int id){
+    public Optional<MeterModel> getMeterById(Long id){
         return meterRepository.findById(id);
     }
     public MeterModel updateMeter(MeterModel meterModel){
         return meterRepository.save(meterModel);
     }
-    public void deleteById(int id){
+    public void deleteById(Long id){
         meterRepository.deleteById(id);
     }
 }

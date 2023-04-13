@@ -14,8 +14,9 @@ import java.time.LocalDateTime;
 @Data
 public class MeterReading {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reading_id")
-    private int readingId;
+    private Long readingId;
 //    @Column(name = "meter_id")
 //    private int meterId;
     @Column(name = "meter_reading")

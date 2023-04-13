@@ -17,7 +17,7 @@ public class CityController {
         return cityService.addCity(cityModel);
     }
     @GetMapping("/{id}")
-    public Optional<CityModel> getCityById(@PathVariable("id") int id) {
+    public Optional<CityModel> getCityById(@PathVariable("id") Long id) {
         return cityService.getCityById(id);
     }
 
@@ -26,7 +26,7 @@ public class CityController {
         return cityService.updateCity(cityModel);
     }
     @DeleteMapping("/{id}")
-    public String deleteCityById(@PathVariable("id") int id) {
+    public String deleteCityById(@PathVariable("id") Long id) {
         cityService.deleteCityById(id);
         return "City got Deleted";
     }

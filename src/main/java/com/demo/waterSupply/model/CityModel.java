@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class CityModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "city_id")
-    private int cityId;
+    private Long cityId;
     @Column(name = "city_name")
     private String  cityName;
 //    @Column(name = "utility_id")

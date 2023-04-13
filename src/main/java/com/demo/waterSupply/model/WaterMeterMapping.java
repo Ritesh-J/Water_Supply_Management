@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class WaterMeterMapping {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "source")
     private MeterModel source;
