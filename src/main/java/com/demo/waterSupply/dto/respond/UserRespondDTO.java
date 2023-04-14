@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class UserRespondDTO {
     private Long userId;
     private String userName;
+    private String userEmail;
+    private String userAddress;
     private String roleName;
     private String cityName;
     private String meterName;

@@ -11,18 +11,10 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Data
 public class UserRequestDTO {
-    @NotBlank(message = "Enter A Valid User Id")
-    private Long userId;
-    @NotBlank(message = "Enter A Valid User Name")
     private String userName;
-    @Email(message = "Enter a Valid Email")
     private String userEmail;
-    @NotBlank(message = "Enter a Valid Address")
     private String userAddress;
-    @NotBlank(message = "Enter a Valid Input")
     private String cityName;
-    @NotBlank(message = "Enter a Valid Input")
     private String meterName;
-    @NotBlank(message = "Enter a Valid Input")
     private String roleName;
 }
