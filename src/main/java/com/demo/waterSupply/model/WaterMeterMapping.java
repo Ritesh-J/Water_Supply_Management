@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class WaterMeterMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long mappingId;
     @ManyToOne
     @JoinColumn(name = "source")
     private MeterModel source;
