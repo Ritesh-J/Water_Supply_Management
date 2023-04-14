@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MeterRepository extends JpaRepository<MeterModel, Long> {
     MeterModel findByMeterName(String meterName);
+
+    boolean existsByMeterName(String meterName);
 }

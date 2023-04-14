@@ -12,5 +12,6 @@ import java.security.PrivilegedAction;
 @NoArgsConstructor
 @Data
 public class UtilityRespondDTO {
+    private Long utilityId;
     private String utilityName;
 }

@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserRespondDTO {
-    private Long userId;
-    private String userName;
-    private String roleName;
-    private String cityName;
+public class MeterRespondDTO {
+    private Long meterId;
     private String meterName;
-
+    private Long criticalVolume;
+    private Long crossSecArea;
+    private Long locationPin;
+    private String cityName;
 }

@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CityRequestDTO {
+public class MeterRequestDTO {
+    private String meterName;
+    private Long criticalVolume;
+    private Long crossSecArea;
+    private Long locationPin;
     private String cityName;
-    private String utilityName;
-
 }

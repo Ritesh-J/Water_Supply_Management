@@ -4,14 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class UserRespondDTO {
-    private Long userId;
-    private String userName;
+public class RoleRespondDTO {
+    private Long roleId;
     private String roleName;
-    private String cityName;
-    private String meterName;
-
 }

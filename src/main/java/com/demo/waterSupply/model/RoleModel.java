@@ -20,17 +20,4 @@ public class RoleModel {
     @Column(name = "role_name")
     private String roleName;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "permission_id", referencedColumnName = "permission_id")
-//    @JsonIgnore
-//    private PermissionModel permissionModel;
-    @Column(name = "permission_id")
-    private int permissionId;
-//    @OneToOne(mappedBy = "roleModel",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private UserModel userModel;
-//    @OneToOne(mappedBy = "roleModel")
-////    @JsonIgnore
-//    private UserModel userModel;
-
-
 }

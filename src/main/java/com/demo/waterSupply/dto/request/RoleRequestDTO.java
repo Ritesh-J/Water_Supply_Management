@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CityRequestDTO {
-    private String cityName;
-    private String utilityName;
-
+public class RoleRequestDTO {
+    private String roleName;
 }

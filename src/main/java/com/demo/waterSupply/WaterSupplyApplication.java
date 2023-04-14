@@ -15,12 +15,15 @@ public class WaterSupplyApplication {
 		SpringApplication.run(WaterSupplyApplication.class, args);
 	}
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+	public WebMvcConfigurer corsConfigurer(){
 		return new WebMvcConfigurer() {
 			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/*")
-						.allowedOrigins("*");
+			public void addCorsMappings(CorsRegistry registry){
+				LoggerFactory.getLogger(getClass()).debug("Adding CORS mappings");
+				registry.addMapping("/**")
+						.allowedOrigins("*")
+						.allowedMethods("*")
+						.allowedHeaders("*");
 			}
 		};
 	}

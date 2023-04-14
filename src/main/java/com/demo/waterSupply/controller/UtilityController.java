@@ -20,7 +20,7 @@ public class UtilityController {
     @Autowired
     private UtilityService utilityService;
     @PostMapping
-    public ResponseEntity<Object> addUtility(@RequestBody @NotBlank UtilityRequestDTO utilityRequestDTO) {
+    public ResponseEntity<Object> addUtility(@RequestBody UtilityRequestDTO utilityRequestDTO) {
         return new ResponseEntity<>(utilityService.addUtility(utilityRequestDTO), HttpStatus.CREATED);
     }
     @PostMapping("/all-utility")
@@ -36,8 +36,8 @@ public class UtilityController {
         return new ResponseEntity<>(utilityService.getUtilityById(id), HttpStatus.FOUND);
     }
     @PutMapping
-    public ResponseEntity<Object> updateUtility(@RequestBody UtilityRequestDTO utilityRequestDTO){
-        return new ResponseEntity<>(utilityService.updateUtility(utilityRequestDTO), HttpStatus.ACCEPTED);
+    public ResponseEntity<Object> updateUtility(@RequestBody UtilityModel utilityModel){
+        return new ResponseEntity<>(utilityService.updateUtility(utilityModel), HttpStatus.ACCEPTED);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUtilityById(@PathVariable("id") Long id) {

@@ -2,7 +2,7 @@ package com.demo.waterSupply.service;
 
 import com.demo.waterSupply.dto.request.UserRequestDTO;
 import com.demo.waterSupply.dto.respond.UserRespondDTO;
-import com.demo.waterSupply.exception.UserNotFoundException;
+import com.demo.waterSupply.exception.EntityNotFoundException;
 import com.demo.waterSupply.model.CityModel;
 import com.demo.waterSupply.model.MeterModel;
 import com.demo.waterSupply.model.RoleModel;
@@ -57,11 +57,11 @@ public class UserService {
 
     }
     public UserModel updateUser(UserModel userModel) {
-        RoleModel roleModel = roleService.getRoleById(userModel.getRoleModel().getRoleId()).get();
+        RoleModel roleModel = roleRepository.findById(userModel.getRoleModel().getRoleId()).get();
         userModel.setRoleModel(roleModel);
-        CityModel cityModel=cityService.getCityById(userModel.getCityModel().getCityId()).get();
+        CityModel cityModel=cityRepository.findById(userModel.getCityModel().getCityId()).get();
         userModel.setCityModel(cityModel);
-        MeterModel meterModel=meterService.getMeterById(userModel.getMeterModel().getMeterId()).get();
+        MeterModel meterModel=meterRepository.findById(userModel.getMeterModel().getMeterId()).get();
         userModel.setMeterModel(meterModel);
         return userRepository.save(userModel);
     }
@@ -69,7 +69,7 @@ public class UserService {
     public UserRespondDTO getUserById(Long userId) {
         Optional<UserModel> userModel=userRepository.findById(userId);
         if(userModel.isEmpty())
-            throw  new UserNotFoundException("Requested User Doesn't Exist");
+            throw  new EntityNotFoundException("Requested User Doesn't Exist");
 //        if(userModel.isPresent()){
 //            System.out.println(userModel.get().getRoleModel().toString());
 //         RoleModel roleModel=   userModel.get().getRoleModel();

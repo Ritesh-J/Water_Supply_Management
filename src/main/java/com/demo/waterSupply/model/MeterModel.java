@@ -20,11 +20,14 @@ public class MeterModel {
     @Column(name = "meter_name")
     private String meterName;
     @Column(name = "critical_volume")
-    private int criticalVolume;
+    private Long criticalVolume;
     @Column(name="cross_sectional_area")
-    private int crossSecArea;
+    private Long crossSecArea;
     @Column(name = "location_pin")
-    private int locationPin;
+    private Long locationPin;
+    @OneToOne
+    @JoinColumn(name = "city_id", referencedColumnName = "city_id")
+    private CityModel cityModel;
 //    @OneToMany(mappedBy = "source")
 //    private List<WaterMeterMapping> mappings1;
 //    @OneToMany(mappedBy = "target")

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UtilityRepository extends JpaRepository<UtilityModel, Long> {
     UtilityModel findByUtilityName(String utilityName);
+
+    Boolean existsByUtilityName(String utilityName);
 }
