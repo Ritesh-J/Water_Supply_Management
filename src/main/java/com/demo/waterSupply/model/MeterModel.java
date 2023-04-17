@@ -19,6 +19,8 @@ public class MeterModel {
     private Long meterId;
     @Column(name = "meter_name")
     private String meterName;
+    @Column(name = "meter_reading")
+    private Integer meterReading=0;
     @Column(name = "critical_volume")
     private Long criticalVolume;
     @Column(name="cross_sectional_area")

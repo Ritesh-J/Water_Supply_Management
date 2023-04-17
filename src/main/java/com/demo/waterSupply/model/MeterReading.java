@@ -24,7 +24,7 @@ public class MeterReading {
     @Column(name = "expected_volume")
     private Integer expectedVolume=0;
     @Column(name = "percentage_loss")
-    private Integer percentageLossOfWater=0;
+    private Integer lossOfWater=0;
     @Column(name = "time_stamp")
     private LocalDateTime localDateTime;
     @OneToOne

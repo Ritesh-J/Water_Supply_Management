@@ -1,97 +1,156 @@
-//package com.demo.waterSupply.service;
-//
-//import com.demo.waterSupply.model.MeterModel;
-//import com.demo.waterSupply.model.MeterReading;
-//import com.demo.waterSupply.model.WaterMeterMapping;
-//import com.demo.waterSupply.repository.MeterReadingRepository;
-//import com.demo.waterSupply.repository.MeterRepository;
-//import com.demo.waterSupply.repository.WaterMeterMappingRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import java.sql.SQLOutput;
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.Arrays;
-//import java.util.List;
-//import java.util.Optional;
-//
-//@Service
-//public class MeterReadingService {
-//    @Autowired
-//    private MeterReadingRepository meterReadingRepository;
-//    @Autowired
-//    private MeterService meterService;
-//    @Autowired
-//    private WaterMeterMappingRepository waterMeterMappingRepository;
-//    public MeterReading addReading(MeterReading meterReading) {
-//        MeterModel meterModel=meterService.getMeterById(meterReading.getMeterModel().getMeterId()).get();
-//        meterReading.setMeterModel(meterModel);
-//        meterReading.setExpectedVolume(calculateExpectedVolume(meterReading));
-//        meterReading.setPercentageLossOfWater(meterReading.getExpectedVolume()-meterReading.getMeterReading());
-//        LocalDateTime now =LocalDateTime.now();
-//        meterReading.setLocalDateTime(now);
-////        System.out.println(calculateExpectedVolume(meterReading));
-//        return meterReadingRepository.save(meterReading);
-//    }
-//    public MeterReading updateMeter(MeterReading meterReading) {
-//        MeterModel meterModel=meterService.getMeterById(meterReading.getMeterModel().getMeterId()).get();
-//        meterReading.setMeterModel(meterModel);
-//        LocalDateTime now =LocalDateTime.now();
-//        meterReading.setLocalDateTime(now);
-//        return meterReadingRepository.save(meterReading);
-//    }
-//    public Optional<MeterReading> getMeterById(Long id){
-//        return meterReadingRepository.findById(id);
-//    }
-//
-//    public void deleteMeterById(Long id){
-//        meterReadingRepository.deleteById(id);
-//    }
-//    public int calculateExpectedVolume(MeterReading meterReading) {
-//        MeterModel currentMeter=meterService.getMeterById(meterReading.getMeterModel().getMeterId()).get();
-//        List<WaterMeterMapping> sourceMeters=waterMeterMappingRepository.findByTarget(currentMeter);
-//        WaterMeterMapping sourceMeter=sourceMeters.get(0);
-//        MeterModel src=sourceMeter.getSource();
-//        System.out.println(src);
-//        int reading=meterReadingRepository.findById(src.getMeterId()).get().getMeterReading();
-//        System.out.println(reading);
-//        List<WaterMeterMapping>targetMeters=waterMeterMappingRepository.findBySource(src);
-//        int numberOfSourceMeters=targetMeters.size();
-//        return reading/numberOfSourceMeters;
-//////
-//////        System.out.println(sourceMeters);
-//////        System.out.println("source meter printed");
-//////        System.out.println(targetMeters);
-//////        System.out.println(numberOfSourceMeters);
-//////        return 1;
-////
-//    }
-//    public List<MeterReading> addAllReading(List<MeterReading> payload) {
-//        List<MeterReading> meterReadings=new ArrayList<>();
-//        meterReadings.addAll(payload);
-//        payload.clear();
-//        System.out.println(meterReadings);
-//        System.out.println(meterReadings.size());
-//        int i=0;
-//        System.out.println(meterReadings.get(i).toString());
-//        System.out.println("abc");
-//        for( i=0;i<meterReadings.size();i++){
-//            System.out.println("Inside Loop");
-//            MeterReading meterReading=meterReadings.get(i);
-//            System.out.println("");
-//            MeterModel meterModel=meterService.getMeterById(meterReading.getMeterModel().getMeterId()).get();
-//            meterReading.setMeterModel(meterModel);
-//            meterReading.setExpectedVolume(calculateExpectedVolume(meterReading));
-//            meterReading.setPercentageLossOfWater(meterReading.getExpectedVolume()-meterReading.getMeterReading());
-//            LocalDateTime now=LocalDateTime.now();
-//            meterReading.setLocalDateTime(now);
-//            System.out.println("Loop 1st oiteration");
-//            payload.add(meterReading);
-//        }
-//        return meterReadingRepository.saveAll(payload);
-//    }
-//    public List<MeterReading> getAllReading(){
-//        return meterReadingRepository.findAll();
-//    }
-//}
+package com.demo.waterSupply.service;
+
+import com.demo.waterSupply.dto.request.MeterReadingRequestDTO;
+import com.demo.waterSupply.dto.respond.MeterReadingRespondDTO;
+import com.demo.waterSupply.dto.respond.MeterRespondDTO;
+import com.demo.waterSupply.exception.EntityNotFoundException;
+import com.demo.waterSupply.model.MeterModel;
+import com.demo.waterSupply.model.MeterReading;
+import com.demo.waterSupply.model.WaterMeterMapping;
+import com.demo.waterSupply.repository.MeterReadingRepository;
+import com.demo.waterSupply.repository.MeterRepository;
+import com.demo.waterSupply.repository.WaterMeterMappingRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.SQLOutput;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class MeterReadingService {
+    @Autowired
+    private MeterReadingRepository meterReadingRepository;
+    @Autowired
+    private MeterRepository meterRepository;
+    @Autowired
+    private WaterMeterMappingRepository waterMeterMappingRepository;
+    public MeterReading addReading(MeterReadingRequestDTO meterReadingRequestDTO){
+        MeterModel meterModel=meterRepository.findByMeterName(meterReadingRequestDTO.getMeterName());
+        if(meterModel==null)
+            throw new EntityNotFoundException("Meter Doesn't Exist");
+        MeterReading meterReading=new MeterReading();
+        meterReading.setMeterModel(meterModel);
+        Integer reading=meterReadingRequestDTO.getMeterReading();
+        meterReading.setMeterReading(reading);
+        meterModel.setMeterReading(reading);
+        if(meterReadingRequestDTO.getMeterName().equals("AA")){
+            meterReading.setLocalDateTime(LocalDateTime.now());
+            return meterReadingRepository.save(meterReading);
+        }
+        Integer expectedVolume=calculateExpectedVolume(meterModel,reading);
+        meterReading.setExpectedVolume(expectedVolume);
+        meterReading.setLossOfWater(expectedVolume-reading);
+        meterReading.setLocalDateTime(LocalDateTime.now());
+        return meterReadingRepository.save(meterReading);
+    }
+    public List<MeterReading> addAllReading(List<MeterReadingRequestDTO> meterReadingRequestDTOList){
+        List<MeterReading> meterReadingList=new ArrayList<>();
+        for(int i=0;i<meterReadingRequestDTOList.size();i++){
+            MeterReading meterReading=new MeterReading();
+            MeterModel meterModel=meterRepository.findByMeterName(meterReadingRequestDTOList.get(i).getMeterName());
+            if(meterModel==null)
+                throw new EntityNotFoundException("Meter Doesn't Exist");
+            meterReading.setMeterModel(meterModel);
+            Integer reading=meterReadingRequestDTOList.get(i).getMeterReading();
+            meterReading.setMeterReading(reading);
+            meterModel.setMeterReading(reading);
+            if(meterReadingRequestDTOList.get(i).getMeterName().equals("AA")){
+                meterReading.setLocalDateTime(LocalDateTime.now());
+                meterReadingList.add(meterReading);
+            }
+            Integer expectedVolume=calculateExpectedVolume(meterModel,reading);
+            meterReading.setExpectedVolume(expectedVolume);
+            meterReading.setLossOfWater(expectedVolume-reading);
+            meterReading.setLocalDateTime(LocalDateTime.now());
+            meterReadingList.add(meterReading);
+        }
+        return meterReadingRepository.saveAll(meterReadingList);
+    }
+    public List<MeterReadingRespondDTO> getAllReading(){
+        List<MeterReading> meterReadingList=meterReadingRepository.findAll();
+        if(meterReadingList.isEmpty())
+            throw new EntityNotFoundException("No Readings Available");
+        List<MeterReadingRespondDTO> meterReadingRespondDTOList=new ArrayList<>();
+        for(int i=0;i<meterReadingList.size();i++){
+            MeterReadingRespondDTO meterReadingRespondDTO=new MeterReadingRespondDTO();
+            meterReadingRespondDTO.setReadingId(meterReadingList.get(i).getReadingId());
+            meterReadingRespondDTO.setMeterName(meterReadingList.get(i).getMeterModel().getMeterName());
+            meterReadingRespondDTO.setMeterReading(meterReadingList.get(i).getMeterReading());
+            meterReadingRespondDTO.setExpectedVolume(meterReadingList.get(i).getExpectedVolume());
+            meterReadingRespondDTO.setLossOfWater(meterReadingList.get(i).getLossOfWater());
+            meterReadingRespondDTO.setLocalDateTime(meterReadingList.get(i).getLocalDateTime());
+            meterReadingRespondDTOList.add(meterReadingRespondDTO);
+        }
+        return meterReadingRespondDTOList;
+    }
+    public MeterReadingRespondDTO getReadingById(Long id){
+        Optional<MeterReading> meterReading=meterReadingRepository.findById(id);
+        if(meterReading.isEmpty())
+            throw new EntityNotFoundException("Meter By This ID Doesn't Exist");
+        MeterReadingRespondDTO meterReadingRespondDTO=new MeterReadingRespondDTO();
+        meterReadingRespondDTO.setReadingId(meterReading.get().getReadingId());
+        meterReadingRespondDTO.setMeterReading(meterReading.get().getMeterReading());
+        meterReadingRespondDTO.setMeterName(meterReading.get().getMeterModel().getMeterName());
+        meterReadingRespondDTO.setExpectedVolume(meterReading.get().getExpectedVolume());
+        meterReadingRespondDTO.setLossOfWater(meterReading.get().getLossOfWater());
+        meterReadingRespondDTO.setLocalDateTime(meterReading.get().getLocalDateTime());
+        return meterReadingRespondDTO;
+
+    }
+    public void deleteMeterReadingById(Long id){
+        Optional<MeterReading> meterReading=meterReadingRepository.findById(id);
+        if(meterReading.isEmpty())
+            throw new EntityNotFoundException("Reading not Found");
+        meterReadingRepository.deleteById(id);
+    }
+    public Integer calculateExpectedVolume(MeterModel meterModel, Integer meterReading){
+        MeterModel meterModel1=meterRepository.findByMeterName(meterModel.getMeterName());
+        List<String> sourceMeters=findSourceMeters(meterModel1);
+        Integer expectedVolume=0;
+        for(int i=0;i<sourceMeters.size();i++){
+            String sourceName=sourceMeters.get(i);
+            System.out.println(sourceName);
+            MeterModel sourceMeter=meterRepository.findByMeterName(sourceName);
+            System.out.println(sourceMeter);
+            Integer reading=sourceMeter.getMeterReading();
+            System.out.println(reading);
+//            System.out.println(meterReadingRepository.findByMeterId(sourceMeter.getMeterId()));
+            Integer numberOfTarget=numberOfTargets(sourceMeter);
+            System.out.println(numberOfTarget);
+            expectedVolume+=reading/numberOfTarget;
+        }
+        System.out.println(expectedVolume);
+        System.out.println(sourceMeters);
+        System.out.println(meterModel);
+        System.out.println(meterReading);
+        return expectedVolume;
+    }
+
+    public Integer numberOfTargets(MeterModel meterModel){
+        List<WaterMeterMapping> targets=waterMeterMappingRepository.findBySource(meterModel);
+        return targets.size();
+    }
+    public  Integer findMeterReading(MeterModel sourceMeter){
+        Optional<MeterReading> meterReading=meterReadingRepository.findById(sourceMeter.getMeterId());
+        Integer reading=meterReading.get().getMeterReading();
+        return reading;
+    }
+
+    public List<String> findSourceMeters(MeterModel meterModel) {
+        if (meterModel.getMeterName() == "AA")
+            return null;
+        List<WaterMeterMapping> sourceMeters = waterMeterMappingRepository.findByTarget(meterModel);
+        List<String> sourceMeterNames = new ArrayList<>();
+        for (int i = 0; i < sourceMeters.size(); i++) {
+            String sourceMeterName = sourceMeters.get(i).getSource().getMeterName();
+            sourceMeterNames.add(sourceMeterName);
+        }
+        return sourceMeterNames;
+
+    }
+}
