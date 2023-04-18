@@ -111,6 +111,21 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    public UserRespondDTO loginVerification(String email){
+        UserRespondDTO userRespondDTO=new UserRespondDTO();
+        UserModel userModel=userRepository.findByUserEmail(email);
+        if(userModel==null)
+            throw new EntityNotFoundException("User Doesn't Exists");
+        userRespondDTO.setUserName(userModel.getUserName());
+        userRespondDTO.setUserEmail(userModel.getUserEmail());
+        userRespondDTO.setRoleName(userModel.getRoleModel().getRoleName());
+        userRespondDTO.setCityName(userModel.getCityModel().getCityName());
+        userRespondDTO.setUserAddress(userModel.getUserAddress());
+        userRespondDTO.setMeterName(userModel.getMeterModel().getMeterName());
+        userRespondDTO.setUserId(userModel.getUserId());
+        return userRespondDTO;
+    }
+
 
 
 }

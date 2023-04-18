@@ -24,6 +24,8 @@ public class UserExceptionHandler {
         UserExceptionMessage userExceptionMessage=new UserExceptionMessage(entityNotFoundException.getMessage(),entityNotFoundException.getCause(),HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(userExceptionMessage,HttpStatus.NOT_FOUND);
     }
+
+
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    @ExceptionHandler(MethodArgumentNotValidException.class)
 //    public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex) {

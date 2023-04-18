@@ -10,4 +10,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserModel, Long> {
     boolean existsByUserEmail(String userEmail);
 
+    UserModel findByUserEmail(String emailToVerify);
 }
