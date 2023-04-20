@@ -24,6 +24,11 @@ public class UserExceptionHandler {
         UserExceptionMessage userExceptionMessage=new UserExceptionMessage(entityNotFoundException.getMessage(),entityNotFoundException.getCause(),HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(userExceptionMessage,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<Object> handleNullPointerException(NullPointerException e){
+        UserExceptionMessage userExceptionMessage=new UserExceptionMessage(e.getMessage(), e.getCause(),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userExceptionMessage,HttpStatus.NOT_FOUND);
+    }
 
 
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -81,6 +81,9 @@ public class MeterReadingService {
             meterReadingRespondDTO.setReadingId(meterReadingList.get(i).getReadingId());
             meterReadingRespondDTO.setMeterName(meterReadingList.get(i).getMeterModel().getMeterName());
             meterReadingRespondDTO.setMeterReading(meterReadingList.get(i).getMeterReading());
+            if(meterReadingList.get(i).getMeterModel().getMeterName()=="AA")
+                meterReadingRespondDTO.setLossOfWater(0);
+            else
             meterReadingRespondDTO.setExpectedVolume(meterReadingList.get(i).getExpectedVolume());
             meterReadingRespondDTO.setLossOfWater(meterReadingList.get(i).getLossOfWater());
             meterReadingRespondDTO.setLocalDateTime(meterReadingList.get(i).getLocalDateTime());
@@ -97,7 +100,10 @@ public class MeterReadingService {
         meterReadingRespondDTO.setMeterReading(meterReading.get().getMeterReading());
         meterReadingRespondDTO.setMeterName(meterReading.get().getMeterModel().getMeterName());
         meterReadingRespondDTO.setExpectedVolume(meterReading.get().getExpectedVolume());
-        meterReadingRespondDTO.setLossOfWater(meterReading.get().getLossOfWater());
+        if(meterReading.get().getMeterModel().getMeterName()=="AA")
+            meterReadingRespondDTO.setLossOfWater(0);
+        else
+            meterReadingRespondDTO.setLossOfWater(meterReading.get().getLossOfWater());
         meterReadingRespondDTO.setLocalDateTime(meterReading.get().getLocalDateTime());
         return meterReadingRespondDTO;
 

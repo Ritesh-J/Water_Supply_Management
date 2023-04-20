@@ -36,7 +36,7 @@ public class UserService {
         if(!cityRepository.existsByCityName(userDTO.getCityName()))
             throw new EntityNotFoundException("City Doesn't Exists");
         CityModel cityModel=cityRepository.findByCityName(userDTO.getCityName());
-        if(!meterRepository.existsByMeterName(userDTO.getMeterName()))
+        if(userDTO.getMeterName()!=""&&!meterRepository.existsByMeterName(userDTO.getMeterName()))
             throw new EntityNotFoundException("Meter Doesn't Exists");
         MeterModel meterModel=meterRepository.findByMeterName(userDTO.getMeterName());
         if(!roleRepository.existsByRoleName(userDTO.getRoleName()))
@@ -57,7 +57,7 @@ public class UserService {
         if(!cityRepository.existsByCityName(userRespondDTO.getCityName()))
             throw new EntityNotFoundException("City Doesn't Exists");
         CityModel cityModel=cityRepository.findByCityName(userRespondDTO.getCityName());
-        if(!meterRepository.existsByMeterName(userRespondDTO.getMeterName()))
+        if(userRespondDTO.getMeterName()!=""&&!meterRepository.existsByMeterName(userRespondDTO.getMeterName()))
             throw new EntityNotFoundException("Meter Doesn't Exists");
         MeterModel meterModel=meterRepository.findByMeterName(userRespondDTO.getMeterName());
         if(!roleRepository.existsByRoleName(userRespondDTO.getRoleName()))
@@ -82,7 +82,10 @@ public class UserService {
         userRespondDTO.setUserAddress(userModel.get().getUserAddress());
         userRespondDTO.setUserEmail(userModel.get().getUserEmail());
         userRespondDTO.setCityName(userModel.get().getCityModel().getCityName());
-        userRespondDTO.setMeterName(userModel.get().getMeterModel().getMeterName());
+        if(userModel.get().getMeterModel()==null)
+            userRespondDTO.setMeterName("");
+        else
+            userRespondDTO.setMeterName(userModel.get().getMeterModel().getMeterName());
         userRespondDTO.setRoleName(userModel.get().getRoleModel().getRoleName());
         return userRespondDTO;
     }
@@ -97,6 +100,9 @@ public class UserService {
             userRespondDTO.setUserName(userModels.get(i).getUserName());
             userRespondDTO.setUserEmail(userModels.get(i).getUserEmail());
             userRespondDTO.setUserAddress(userModels.get(i).getUserAddress());
+            if(userModels.get(i).getMeterModel()==null)
+                userRespondDTO.setMeterName("");
+            else
             userRespondDTO.setMeterName(userModels.get(i).getMeterModel().getMeterName());
             userRespondDTO.setCityName(userModels.get(i).getCityModel().getCityName());
             userRespondDTO.setRoleName(userModels.get(i).getRoleModel().getRoleName());
