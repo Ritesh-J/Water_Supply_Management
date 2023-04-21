@@ -127,7 +127,10 @@ public class UserService {
         userRespondDTO.setRoleName(userModel.getRoleModel().getRoleName());
         userRespondDTO.setCityName(userModel.getCityModel().getCityName());
         userRespondDTO.setUserAddress(userModel.getUserAddress());
-        userRespondDTO.setMeterName(userModel.getMeterModel().getMeterName());
+        if(userModel.getMeterModel()==null)
+            userRespondDTO.setMeterName("");
+        else
+            userRespondDTO.setMeterName(userModel.getMeterModel().getMeterName());
         userRespondDTO.setUserId(userModel.getUserId());
         return userRespondDTO;
     }

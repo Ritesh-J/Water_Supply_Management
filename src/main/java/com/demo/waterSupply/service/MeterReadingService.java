@@ -44,7 +44,10 @@ public class MeterReadingService {
         }
         Integer expectedVolume=calculateExpectedVolume(meterModel,reading);
         meterReading.setExpectedVolume(expectedVolume);
-        meterReading.setLossOfWater(expectedVolume-reading);
+        Integer lossOfWater=expectedVolume-reading;
+        meterReading.setLossOfWater(lossOfWater);
+        Double percentageLoss=Double.valueOf((lossOfWater*100)/expectedVolume);
+        meterReading.setPercentageLoss(percentageLoss);
         meterReading.setLocalDateTime(LocalDateTime.now());
         return meterReadingRepository.save(meterReading);
     }
@@ -65,7 +68,10 @@ public class MeterReadingService {
             }
             Integer expectedVolume=calculateExpectedVolume(meterModel,reading);
             meterReading.setExpectedVolume(expectedVolume);
-            meterReading.setLossOfWater(expectedVolume-reading);
+            Integer lossOfWater=expectedVolume-reading;
+            meterReading.setLossOfWater(lossOfWater);
+            Double percentageLoss=Double.valueOf((lossOfWater*100)/expectedVolume);
+            meterReading.setPercentageLoss(percentageLoss);
             meterReading.setLocalDateTime(LocalDateTime.now());
             meterReadingList.add(meterReading);
         }
@@ -81,11 +87,12 @@ public class MeterReadingService {
             meterReadingRespondDTO.setReadingId(meterReadingList.get(i).getReadingId());
             meterReadingRespondDTO.setMeterName(meterReadingList.get(i).getMeterModel().getMeterName());
             meterReadingRespondDTO.setMeterReading(meterReadingList.get(i).getMeterReading());
+            meterReadingRespondDTO.setExpectedVolume(meterReadingList.get(i).getExpectedVolume());
             if(meterReadingList.get(i).getMeterModel().getMeterName()=="AA")
                 meterReadingRespondDTO.setLossOfWater(0);
             else
-            meterReadingRespondDTO.setExpectedVolume(meterReadingList.get(i).getExpectedVolume());
-            meterReadingRespondDTO.setLossOfWater(meterReadingList.get(i).getLossOfWater());
+                meterReadingRespondDTO.setLossOfWater(meterReadingList.get(i).getLossOfWater());
+            meterReadingRespondDTO.setPercentageLoss(meterReadingList.get(i).getPercentageLoss());
             meterReadingRespondDTO.setLocalDateTime(meterReadingList.get(i).getLocalDateTime());
             meterReadingRespondDTOList.add(meterReadingRespondDTO);
         }
@@ -104,6 +111,7 @@ public class MeterReadingService {
             meterReadingRespondDTO.setLossOfWater(0);
         else
             meterReadingRespondDTO.setLossOfWater(meterReading.get().getLossOfWater());
+        meterReadingRespondDTO.setPercentageLoss(meterReading.get().getPercentageLoss());
         meterReadingRespondDTO.setLocalDateTime(meterReading.get().getLocalDateTime());
         return meterReadingRespondDTO;
 

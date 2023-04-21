@@ -15,5 +15,6 @@ public class MeterReadingRespondDTO {
     private Integer meterReading;
     private Integer expectedVolume;
     private Integer lossOfWater;
+    private Double percentageLoss;
     private LocalDateTime localDateTime;
 }
