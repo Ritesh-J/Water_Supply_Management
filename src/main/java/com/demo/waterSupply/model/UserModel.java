@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,7 +39,7 @@ public class UserModel {
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     private CityModel cityModel;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "meter_id", referencedColumnName = "meter_id")
     private MeterModel meterModel;
 }

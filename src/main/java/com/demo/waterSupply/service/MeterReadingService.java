@@ -6,9 +6,11 @@ import com.demo.waterSupply.dto.respond.MeterRespondDTO;
 import com.demo.waterSupply.exception.EntityNotFoundException;
 import com.demo.waterSupply.model.MeterModel;
 import com.demo.waterSupply.model.MeterReading;
+import com.demo.waterSupply.model.UserModel;
 import com.demo.waterSupply.model.WaterMeterMapping;
 import com.demo.waterSupply.repository.MeterReadingRepository;
 import com.demo.waterSupply.repository.MeterRepository;
+import com.demo.waterSupply.repository.UserRepository;
 import com.demo.waterSupply.repository.WaterMeterMappingRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,11 @@ public class MeterReadingService {
     @Autowired
     private MeterRepository meterRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private WaterMeterMappingRepository waterMeterMappingRepository;
+    @Autowired
+    private NotificationService notificationService;
     public MeterReading addReading(MeterReadingRequestDTO meterReadingRequestDTO){
         MeterModel meterModel=meterRepository.findByMeterName(meterReadingRequestDTO.getMeterName());
         if(meterModel==null)
@@ -48,6 +54,16 @@ public class MeterReadingService {
         meterReading.setLossOfWater(lossOfWater);
         Double percentageLoss=Double.valueOf((lossOfWater*100)/expectedVolume);
         meterReading.setPercentageLoss(percentageLoss);
+        if(percentageLoss>50.0)
+        {
+            String subject="Water leakage";
+            String mail="There is a Critical Loss of Water in your Water Meter";
+            List<String> userEmails=getUserEmails(meterModel);
+            for(int i=0;i<userEmails.size();i++){
+                String to=userEmails.get(i);
+                notificationService.sendMail(to,subject,mail);
+            }
+        }
         meterReading.setLocalDateTime(LocalDateTime.now());
         return meterReadingRepository.save(meterReading);
     }
@@ -166,5 +182,15 @@ public class MeterReadingService {
         }
         return sourceMeterNames;
 
+    }
+    public List<String> getUserEmails(MeterModel meterModel){
+        List<UserModel> users=userRepository.findByMeterModel(meterModel);
+        List<String> userEmails=new ArrayList<>();
+        for(int i=0;i<users.size();i++){
+            String userEmail=users.get(i).getUserEmail();
+            userEmails.add(userEmail);
+        }
+        System.out.println(users);
+        return userEmails;
     }
 }

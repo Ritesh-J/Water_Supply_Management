@@ -1,22 +1,27 @@
 package com.demo.waterSupply.controller;
 
 import com.demo.waterSupply.dto.request.MeterReadingRequestDTO;
-import com.demo.waterSupply.model.MeterReading;
+import com.demo.waterSupply.service.NotificationService;
 import com.demo.waterSupply.service.MeterReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/reading")
 public class MeterReadingController {
     @Autowired
     private MeterReadingService meterReadingService;
+    @Autowired
+    private NotificationService notificationService;
+//    @GetMapping("/email")
+//    public ResponseEntity<Object> emailGet(){
+//        demoService.sendMail();
+//        return new ResponseEntity<>("Check Email",HttpStatus.OK);
+//    }
     @PostMapping
     public ResponseEntity<Object> addMeterReading(@RequestBody MeterReadingRequestDTO meterReadingRequestDTO){
         return new ResponseEntity<>(meterReadingService.addReading(meterReadingRequestDTO), HttpStatus.CREATED);
