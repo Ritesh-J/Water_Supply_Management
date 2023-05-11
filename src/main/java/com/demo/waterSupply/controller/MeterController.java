@@ -26,7 +26,7 @@ public class MeterController {
     }
     @GetMapping("/all-meter")
     public ResponseEntity<Object> getAllMeter(){
-        return new ResponseEntity<>(meterService.getAllMeter(),HttpStatus.FOUND);
+        return new ResponseEntity<>(meterService.getAllMeter(),HttpStatus.OK);
     }
     @PutMapping
     public MeterModel updateMeter(@RequestBody MeterRespondDTO meterRespondDTO) {

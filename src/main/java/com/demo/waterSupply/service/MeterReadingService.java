@@ -56,8 +56,18 @@ public class MeterReadingService {
         meterReading.setPercentageLoss(percentageLoss);
         if(percentageLoss>50.0)
         {
+            String location=String.valueOf(meterModel.getLocationPin());
+            String meterId=String.valueOf(meterModel.getMeterId());
+            String meterName=meterModel.getMeterName();
             String subject="Water leakage";
-            String mail="There is a Critical Loss of Water in your Water Meter";
+//            String mail="This is to inform you that we have detected a critical loss of water at "+location+" as reported by meter "+meterId+" with name "+meterName+" . Please minimize water usage until we resolve the issue. Thank you.";
+            String mail = "Dear valued customer," +
+                    "\n\n We are writing to inform you that there is a critical loss of water in your water meter. "+meterName+
+                    " located at "+location+
+                    " This is a serious issue that requires immediate attention.\n" +
+                    "We recommend that you check your water meter as soon as possible to identify any leaks.If you are unable to locate the source of the leak, please contact a qualified plumber for assistance." +
+                    "\n\n Thank you for your prompt attention to this matter." +
+                    "\n\n\n Sincerely, \n AquaLeaps";
             List<String> userEmails=getUserEmails(meterModel);
             for(int i=0;i<userEmails.size();i++){
                 String to=userEmails.get(i);
@@ -87,6 +97,25 @@ public class MeterReadingService {
             Integer lossOfWater=expectedVolume-reading;
             meterReading.setLossOfWater(lossOfWater);
             Double percentageLoss=Double.valueOf((lossOfWater*100)/expectedVolume);
+            if(percentageLoss>50.0)
+            {
+                String location=String.valueOf(meterModel.getLocationPin());
+                String meterId=String.valueOf(meterModel.getMeterId());
+                String meterName=meterModel.getMeterName();
+                String subject="Water leakage";
+//                String mail="This is to inform you that we have detected a critical loss of water at "+location+" as reported by meter "+meterId+" with name "+meterName+" . Please minimize water usage until we resolve the issue. Thank you.";
+                String mail = "Dear valued customer," +
+                        "\n\n We are writing to inform you that there is a critical loss of water in your water meter. "
+                        +meterName+" located at "+location+
+                        " This is a serious issue that requires immediate attention.\nWe recommend that you check your water meter as soon as possible to identify any leaks.If you are unable to locate the source of the leak, please contact a qualified plumber for assistance.\n\n " +
+                        "Thank you for your prompt attention to this matter." +
+                        "\n\n\n Sincerely, \n AquaLeaps";
+                List<String> userEmails=getUserEmails(meterModel);
+                for(int j=0;j<userEmails.size();j++){
+                    String to=userEmails.get(j);
+                    notificationService.sendMail(to,subject,mail);
+                }
+            }
             meterReading.setPercentageLoss(percentageLoss);
             meterReading.setLocalDateTime(LocalDateTime.now());
             meterReadingList.add(meterReading);
@@ -144,20 +173,11 @@ public class MeterReadingService {
         Integer expectedVolume=0;
         for(int i=0;i<sourceMeters.size();i++){
             String sourceName=sourceMeters.get(i);
-            System.out.println(sourceName);
             MeterModel sourceMeter=meterRepository.findByMeterName(sourceName);
-            System.out.println(sourceMeter);
             Integer reading=sourceMeter.getMeterReading();
-            System.out.println(reading);
-//            System.out.println(meterReadingRepository.findByMeterId(sourceMeter.getMeterId()));
             Integer numberOfTarget=numberOfTargets(sourceMeter);
-            System.out.println(numberOfTarget);
             expectedVolume+=reading/numberOfTarget;
         }
-        System.out.println(expectedVolume);
-        System.out.println(sourceMeters);
-        System.out.println(meterModel);
-        System.out.println(meterReading);
         return expectedVolume;
     }
 
@@ -190,7 +210,6 @@ public class MeterReadingService {
             String userEmail=users.get(i).getUserEmail();
             userEmails.add(userEmail);
         }
-        System.out.println(users);
         return userEmails;
     }
 }
